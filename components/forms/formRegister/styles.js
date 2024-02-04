@@ -2,19 +2,19 @@ import { StyleSheet } from 'react-native';
 
 export const registerStyle = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 0,
         display: 'flex',
-        height: 1000,
+        height: 1400,
         alignItems: 'center',
-        gap: 20,
+        gap: 30,
     },
     image: {
         width: '90%', 
-        height: '50%', 
+        height: '40%', 
         objectFit: "contain", 
     },
     input: {
-        height: '8%',
+        height: '6%',
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 8,
@@ -26,12 +26,25 @@ export const registerStyle = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'teal',
-        height: '8%',
+        height: '6%',
         width: '90%',
         borderRadius: 8,
     },
     buttonText: {
         fontSize: 16,
         color: 'white'
+    },
+    returnPressable: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '5%',
+        width: '20%'
+    },
+    checkbox: {
+        paddingLeft: 10,
+    },
+    checkboxView: {
+        flexDirection: 'row', 
+        gap: 10
     },
 })

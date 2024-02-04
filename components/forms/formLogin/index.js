@@ -1,20 +1,27 @@
 import React from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import {loginStyle} from './styles';
+import { useRouter } from 'expo-router';
 
 const FormLogin = () => {
+
+    const router = useRouter();
+
+    const handleLogin = () => {
+        router.push('/home/')
+    }
 
     return(
         <View style={loginStyle.container}>
 
             <TextInput
             style={loginStyle.input}
-            placeholder="Username"
+            placeholder="Usuário"
             />
 
             <TextInput
             style={loginStyle.input}
-            placeholder="Password"
+            placeholder="Senha"
             secureTextEntry
             />
 
@@ -25,7 +32,7 @@ const FormLogin = () => {
 
             <TouchableOpacity
             style={loginStyle.loginButton}
-            onPress={() => console.log("Login button pressed")}>
+            onPress={handleLogin}>
             <Text style={loginStyle.loginButtonText}>Login</Text>
             </TouchableOpacity>
 

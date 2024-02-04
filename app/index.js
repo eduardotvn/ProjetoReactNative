@@ -4,7 +4,6 @@ import { appStyle } from './styles.js';
 import React, { useState } from 'react';
 import FormLogin from '../components/forms/formLogin/index.js';
 import frontImage from '../assets/4269960.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useRouter } from 'expo-router';
 
 export default function App() {
@@ -21,7 +20,7 @@ export default function App() {
   };
 
   const handleRegisterButton = () => {
-    router.push('/register')
+    router.navigate('/register/')
   }
 
   return (

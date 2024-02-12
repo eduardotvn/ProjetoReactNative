@@ -6,6 +6,8 @@ export const footerStyle = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: 'teal',
+        borderTopWidth: 1,
+        borderTopColor: 'white',
     },
     button: {
         justifyContent: 'center',

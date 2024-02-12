@@ -2,14 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export const homeStyle = StyleSheet.create({
     container: {
-        height: 1000,
+        height: 800,
         alignItems: 'center',
         justifyContent: 'flex-start',
         gap: 20,
     },
     homeImage: {
         width: '90%',
-        height: '40%',
+        height: '50%',
     },
     scrollView: {
         flexGrow: 1,
@@ -18,7 +18,7 @@ export const homeStyle = StyleSheet.create({
         flex: 1,
     },
     buttonsContainer: {
-        height: '30%',
+        height: '40%',
         flexDirection: 'column',
         alignItems: 'center,',
         justifyContent: 'center',

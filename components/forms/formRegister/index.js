@@ -4,15 +4,47 @@ import { registerStyle } from './styles';
 import RegisterImage from '../../../assets/7922058.jpg'
 import { useRouter } from 'expo-router';
 import Checkbox from 'expo-checkbox';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default FormRegister = () => {
 
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [checkPassword, setCheckPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const router = useRouter();
 
     const handleReturnButton = () => {
         router.navigate('/')
+    }
+
+    const registerUser = async (email, password) =>
+    {
+        if(toggleCheckBox == false)
+        {
+            setErrorMessage("É necessário aceitar os termos e condições")
+        }
+        else if(password != checkPassword)
+        {
+            setErrorMessage("As senhas não coincidem")
+        }
+        else if(password == '')
+        {
+            setErrorMessage("Senha é obrigatório")
+        }
+        else {
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth, email, password).then(() => {
+                router.navigate('/home')
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                setErrorMessage(errorMessage)
+              });
+        }
     }
 
     return (
@@ -23,25 +55,24 @@ export default FormRegister = () => {
 
             <TextInput
                 style={registerStyle.input}
-                placeholder="Usuário"
+                placeholder="Email"
+                onChangeText={text => setEmail(text)} 
             />
 
             <TextInput
                 style={registerStyle.input}
                 placeholder="Senha"
                 secureTextEntry
+                onChangeText={text => setPassword(text)}
             />
 
             <TextInput
                 style={registerStyle.input}
                 placeholder="Confirmar senha"
                 secureTextEntry
+                onChangeText={text => setCheckPassword(text)}
             />
 
-            <TextInput
-                style={registerStyle.input}
-                placeholder="Email"
-            />
             <View style={registerStyle.checkboxView}>
                 <Checkbox
                     style={registerStyle.checkbox}
@@ -51,8 +82,13 @@ export default FormRegister = () => {
                 />
                 <Text>Aceito os termos e condições</Text>  
             </View>
+
+            {errorMessage ? (
+                <Text style={{ color: 'red', marginTop: 10 }}>{errorMessage}</Text>
+            ) : null}
+
             <TouchableHighlight 
-            onPress = {() => console.log("teste")}
+            onPress = {() => registerUser(email, password)}
             style={registerStyle.button}
             >
                 <Text style={registerStyle.buttonText}>Registrar</Text>

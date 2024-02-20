@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import { View,TouchableHighlight , TextInput, Text, Image, Pressable } from 'react-native';
 import { registerStyle } from './styles';
 import RegisterImage from '../../../assets/7922058.jpg'
 import { useRouter } from 'expo-router';
 import Checkbox from 'expo-checkbox';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import AuthProvider, { AuthContext } from '../../authProvider';
 
 export default FormRegister = () => {
 
@@ -13,6 +14,7 @@ export default FormRegister = () => {
     const [password, setPassword] = useState('');
     const [checkPassword, setCheckPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const {auth} = useContext(AuthContext)
 
     const router = useRouter();
 
@@ -35,7 +37,6 @@ export default FormRegister = () => {
             setErrorMessage("Senha é obrigatório")
         }
         else {
-            const auth = getAuth();
             createUserWithEmailAndPassword(auth, email, password).then(() => {
                 router.navigate('/home')
             })

@@ -1,17 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
 import { View, Image, TouchableHighlight, Text } from 'react-native';
 import { appStyle } from './styles.js';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import FormLogin from '../components/forms/formLogin/index.js';
 import frontImage from '../assets/4269960.jpg';
 import { useRouter } from 'expo-router';
+import { getAuth } from "firebase/auth";
+import { AuthContext } from '../components/authProvider/index.js';
 
 export default function App() {
   const router = useRouter();
 
   const [showLoginForm, setShowLoginForm] = useState(false);
 
+  const {user} = useContext(AuthContext)
+
   const handleButtonPress = () => {
+    if(user)
+    {
+      router.navigate('/home')
+    }
     setShowLoginForm(true);
   };
 

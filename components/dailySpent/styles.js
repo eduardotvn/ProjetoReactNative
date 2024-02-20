@@ -75,4 +75,30 @@ export const DailySpentStyle = StyleSheet.create({
     faAngleStyle: {
         color: 'white',
     },
+    plusButton: {
+        color: 'teal',
+    },
+    inputContainer: {
+        height: 80,
+        alignItems: 'center',
+        width: '100%',
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: 'black',
+    },
+    textInput: {
+        borderBottomWidth: 1,
+        borderColor: 'gray',
+        width: '30%',
+        height: '50%',
+        paddingLeft: 10,
+    },
+    dropDown: {
+        width: '40%',
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 6,
+        paddingLeft: 5,
+    }
 })

@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import { getFirestore, collection, getDocs, doc, addDoc, query, where } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, deleteDoc, doc, addDoc, query, where } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -29,45 +29,31 @@ const appAuth = initializeAuth(app, {
 
 const db = getFirestore();
 
-const dailySpendDB = collection(db, 'dailySpend')
-const PlanningDB = collection(db, 'plannings')
+export const dailySpendDB = collection(db, 'dailySpend')
+export const PlanningDB = collection(db, 'plannings')
 
-export const addDailySpendData = (data) => {
-
-  addDoc(dailySpendDB, {
-    Date: data.day,
-    Hour: data.hour,
-    Amount: data.amount,
-    Category: data.category,
-    UserUID: data.uid,
-  })
-    .then(() => {
-      console.log("Succesfuly created!")
-    })
-    .catch((error) => {
-      console.log(error.message);
-    })
-} 
-
-export const getDailySpendDataByUserUID = async (userUID, selectedDate) => {
+export const deleteDocument = async (databaseName, docID) => {
   try {
-    const q = query(
-      dailySpendDB,
-      where('UserUID', '==', userUID),
-      where('Date', '==', selectedDate) 
-    );
-    const querySnapshot = await getDocs(q);
-
-    const documents = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-    }));
-
-    return documents;
+    switch (databaseName) {
+      case "dailySpend":
+        const docRef = doc(dailySpendDB, docID);
+        await deleteDoc(docRef);
+        console.log("Deletado com sucesso")
+        return true;
+      case "planning": 
+        docRef = doc(PlanningDB, docID);
+        await deleteDoc(docRef);
+        console.log("Plano deletado com sucesso")
+        return true; 
+      default:
+        break;
+    }
   } catch (error) {
-    console.error('Error getting documents:', error.message);
-    throw error;
+    console.log("Não foi possível deletar o documento.")
+    console.log(error.message)
   }
-};
+
+}
 
 export const addPlanningData = (data) => {
 
@@ -77,7 +63,7 @@ export const addPlanningData = (data) => {
     UserUID: data.uid,
     Duration: data.duration,
     Date: data.date,
-    Goal: data.goal, 
+    Goal: data.goal,
   })
     .then(() => {
       console.log("Succesfuly created!")
@@ -86,3 +72,23 @@ export const addPlanningData = (data) => {
       console.log(error.message);
     })
 } 
+
+export const getPlanningData = async (userUID) => {
+  try {
+    const q = query(
+      PlanningDB,
+      where('UserUID', '==', userUID),
+    );
+    const querySnapshot = await getDocs(q);
+
+    const documents = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    return documents;
+  } catch (error) {
+    console.error('Error getting documents:', error.message);
+    throw error;
+  }
+}

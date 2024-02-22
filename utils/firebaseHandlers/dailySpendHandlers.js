@@ -1,7 +1,6 @@
-import { useContext } from "react";
-import { addDailySpendData, getDailySpendDataByUserUID } from "../firebase.config";
-import { formatDate, getHourFormatted } from "../utils/dateHelper";
-import AuthProvider, { AuthContext } from "../components/authProvider";
+
+import { getHourFormatted } from "../dateHelper";
+import { getFirestore, addDailySpendData, getDailySpendDataByUserUID } from "../firebaseRequests/dailySpendRequests";
 
 
 export const fetchDailySpentData = async (user, date) => {
@@ -14,13 +13,12 @@ export const fetchDailySpentData = async (user, date) => {
     }
 };
 
-export const addSpendData = (value, category, uid) => {
+export const addSpendData = (value, category, uid, date) => {
 
-    const formattedDate = formatDate();
     const formattedTime = getHourFormatted();
 
     const spendData = {
-        day: formattedDate,
+        day: date,
         hour: formattedTime,
         amount: value,
         category: category,

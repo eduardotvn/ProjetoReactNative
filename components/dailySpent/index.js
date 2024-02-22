@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableHighlight } from 'react-native';
+import { View, Text, TextInput, TouchableHighlight, TouchableOpacity, Modal } from 'react-native';
 import React, { useContext, useState, useLayoutEffect } from 'react';
 import { DailySpentStyle } from './styles';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -8,7 +8,8 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
 import { AuthContext } from '../authProvider';
 import { formatDate, getNextDate, getPreviousDate } from '../../utils/dateHelper';
-import { addSpendData, fetchDailySpentData } from '../../firebaseHandlers/dailySpendHandlers';
+import { deleteDocument } from '../../firebase.config';
+import { addSpendData, fetchDailySpentData } from '../../utils/firebaseHandlers/dailySpendHandlers';
 
 export default function DailySpent() {
 
@@ -21,20 +22,22 @@ export default function DailySpent() {
     const [docs, setDocs] = useState([]);
     const [date, setDate] = useState(formatDate());
     const [errorMessage, setErrorMessage] = useState(null)
+    const [modalOpen, setModalOpen] = useState(false);
+    const [idToDelete, setIdToDelete] = useState('');
 
     const { user } = useContext(AuthContext)
 
     useLayoutEffect(() => {
         (async () => {
             const result = await fetchDailySpentData(user, date)
-            if(!result)
-            {
+            if (!result) {
                 setErrorMessage("Erro interno do servidor")
-            } 
-            else{
+            }
+            else {
+                console.log(result)
                 setDocs(result)
             }
-            })()
+        })()
     }, [date]);
 
     const sum = (dailyspent) => {
@@ -46,6 +49,15 @@ export default function DailySpent() {
         }
         return 0
     }
+
+    const toggleModal = () => {
+        setModalOpen(false);
+    }
+
+    const handleOnLongPress = (id) => {
+        setModalOpen(true);
+        setIdToDelete(id)
+    } 
 
     return (
         <>
@@ -72,20 +84,56 @@ export default function DailySpent() {
 
                 {docs && <View style={DailySpentStyle.viewSpendStyle}>
                     {(docs).map((item, key) => (
-                        <View key={key} style={DailySpentStyle.spendStyle}>
-                            <Text style={DailySpentStyle.spendStyleText}>{item.Hour}</Text>
-                            <Text style={DailySpentStyle.spendStyleText}>{item.Amount}</Text>
-                            <Text style={DailySpentStyle.spendStyleText}>{item.Category}</Text>
-                        </View>
+                        <TouchableOpacity key={key}
+                            onLongPress={() => handleOnLongPress(item.id)}
+                            delayLongPress={500}>
+                            <View style={DailySpentStyle.spendStyle} >
+                                <Text style={DailySpentStyle.spendStyleText}>{item.Hour}</Text>
+                                <Text style={DailySpentStyle.spendStyleText}>{item.Amount}</Text>
+                                <Text style={DailySpentStyle.spendStyleText}>{item.Category}</Text>
+                            </View>
+                        </TouchableOpacity>
                     ))}
                 </View>}
+
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalOpen}
+                    onRequestClose={{ toggleModal }}
+                >
+                    <View style={DailySpentStyle.modalContainer}>
+                        <View style={DailySpentStyle.modal}
+                        >
+                            <Text style={DailySpentStyle.modalText}>Deseja remover registro?</Text>
+                            <View style={DailySpentStyle.modalOptions}>
+                                <TouchableOpacity 
+                                onPress={async ()=> {await deleteDocument("dailySpend", idToDelete); 
+                                setModalOpen(false);
+                                setDocs(await fetchDailySpentData(user, date));
+                                }}
+                                style={DailySpentStyle.modalButton}
+                                >
+                                    <Text style={DailySpentStyle.buttonText}>Sim</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                onPress={toggleModal}
+                                style={DailySpentStyle.modalButton}
+                                >
+                                    <Text style={DailySpentStyle.buttonText}>Não</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+
+                </Modal>
 
                 <View style={DailySpentStyle.inputContainer}>
                     <TextInput
                         placeholder="Valor"
                         onChangeText={text => setNewValue(text)}
                         style={DailySpentStyle.textInput}
-                        keyboardType="numeric" 
+                        keyboardType="numeric"
                     />
 
                     <Dropdown
@@ -107,14 +155,13 @@ export default function DailySpent() {
                     <TouchableHighlight onPress={async () => {
                         if (newValue == '' || dropDownValue == '') {
                             setErrorMessage("Preencha ambos os campos")
-                        } else if (newValue < 0){
+                        } else if (newValue < 0) {
                             setErrorMessage("O valor não deve ser negativo")
-                        } else if (isNaN(Number(newValue)))
-                        {
+                        } else if (isNaN(Number(newValue))) {
                             setErrorMessage("Valor inválido")
                         }
                         else {
-                            addSpendData(newValue, dropDownValue, user.uid)
+                            addSpendData(newValue, dropDownValue, user.uid, date)
                         }
                         ;
                         setDocs(await fetchDailySpentData(user, date))
@@ -130,15 +177,10 @@ export default function DailySpent() {
                     <Text style={{ color: 'red', marginTop: 10 }}>{errorMessage}</Text>
                 ) : null}
 
-                {docs ?
+                {docs &&
                     <View style={DailySpentStyle.viewTotal}>
                         <Text style={DailySpentStyle.viewTotalText}>Total: </Text>
                         <Text style={DailySpentStyle.viewTotalText}>R$ {sum(docs)}</Text>
-                    </View>
-                    :
-                    <View style={DailySpentStyle.viewTotal}>
-                        <Text style={DailySpentStyle.viewTotalText}>Total: </Text>
-                        <Text style={DailySpentStyle.viewTotalText}>R$ 0</Text>
                     </View>
                 }
             </View>

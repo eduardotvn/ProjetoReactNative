@@ -30,9 +30,7 @@ export default function HomePage() {
                 <Image source={homeImage} 
                     style={homeStyle.homeImage}>
                 </Image>
-
-                <Text>Olá, {user && user.email}</Text>
-
+                
                 <View style={homeStyle.buttonsContainer}>
 
                     <View style={homeStyle.row}>

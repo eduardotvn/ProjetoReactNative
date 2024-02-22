@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image } from 'react-native';
 import {loginStyle} from './styles';
 import { useRouter } from 'expo-router';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { handleLogin } from '../../../utils/firebaseRequests/loginUser';
 import { AuthContext } from '../../authProvider';
 
 const FormLogin = () => {
@@ -12,19 +12,11 @@ const FormLogin = () => {
     const [password, setPassword] = useState('');
     const {login} = useContext(AuthContext);
 
-
-    const handleLogin = async (email, password) =>
-    {
-        if(password == '' || email == '')
+    const handleClientLogin = async (email, password) => {
+        const error = await handleLogin(email, password, login)
+        if(error)
         {
-            setErrorMessage("Preencha ambos os campos")
-        }
-        else {
-            const loginFail = login(email, password);
-            if(loginFail)
-            {
-                setErrorMessage(loginFail.message)
-            }
+            setErrorMessage("Erro")
         }
     }
 
@@ -55,7 +47,7 @@ const FormLogin = () => {
 
             <TouchableOpacity
             style={loginStyle.loginButton}
-            onPress={() => handleLogin(email, password)}>
+            onPress={async () => await handleClientLogin(email, password)}>
             <Text style={loginStyle.loginButtonText}>Login</Text>
             </TouchableOpacity>
 

@@ -5,14 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
 import { AuthContext } from '../authProvider';
 import { Dropdown } from 'react-native-element-dropdown';
-import { addPlan, fetchPlans } from '../../firebaseHandlers/planningOptionsHandlers';
+import { addPlan, fetchPlans } from '../../utils/firebaseHandlers/planningOptionsHandlers';
+import { DeleteObjectModal } from '../modals/deleteObject';
+import { deleteDocument } from '../../utils/firebaseRequests/deleteDocs';
 
 export default function PlanOptions() {
 
     const { user } = useContext(AuthContext)
     const [goal, setGoal] = useState('');
     const [duration, setDuration] = useState('')
-    const [isModalVisible, setModalVisible] = useState(false);
+    const [isCreationModalVisible, setCreationModalVisible] = useState(false);
+    const [isDeletionModalVisible, setDeletionModalVisible] = useState(false);
     const [categoryValue, setCategoryValue] = useState('')
     const [type, setType] = useState('')
     const [isTypesFocus, setIsTypesFocus] = useState(false);
@@ -25,8 +28,12 @@ export default function PlanOptions() {
         "Taxas", "Locomoção", "Roupas", "Jogos",
         "Assinaturas"]
 
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
+    const toggleCreationModal = () => {
+        setCreationModalVisible(!isCreationModalVisible);
+    };
+
+    const toggleDeletionModal = () => {
+        setDeletionModalVisible(!isCreationModalVisible);
     };
 
     useLayoutEffect(() => {
@@ -43,16 +50,24 @@ export default function PlanOptions() {
     }, [user]);
 
     const handleOnLongPress = (id) => {
+        setDeletionModalVisible(true)
         setIdToDelete(id)
+    }
+
+    const onModalConfirmHandler = async () => {
+
+        await deleteDocument("planning", idToDelete);
+        setDeletionModalVisible(false);
+        setDocs(await fetchPlans(user));
     }
 
     return (<>
         <ScrollView style={planOptionsStyle.container}>
             <View style={planOptionsStyle.planContainer}>
                 {docs.map((item, key) => (
-                    <TouchableOpacity key={key} 
-                    onLongPress={() => {handleOnLongPress(item.id)}}
-                    delayLongPress={500}
+                    <TouchableOpacity key={key}
+                        onLongPress={() => { handleOnLongPress(item.id) }}
+                        delayLongPress={500}
                     >
                         <View style={planOptionsStyle.planViewContainer}>
                             <Text style={planOptionsStyle.planViewContainerText}>
@@ -66,15 +81,22 @@ export default function PlanOptions() {
                     </TouchableOpacity>
                 ))}
             </View>
-            <TouchableOpacity style={planOptionsStyle.buttonContainer} onPress={toggleModal}>
+
+            <DeleteObjectModal
+                callbackOnConfirm={onModalConfirmHandler}
+                toggleModal={toggleDeletionModal}
+                modalOpen={isDeletionModalVisible}
+            />
+
+            <TouchableOpacity style={planOptionsStyle.buttonContainer} onPress={toggleCreationModal}>
                 <FontAwesomeIcon icon={faCirclePlus} size={70} style={planOptionsStyle.plusButton} />
             </TouchableOpacity>
 
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={isModalVisible}
-                onRequestClose={{ toggleModal }}
+                visible={isCreationModalVisible}
+                onRequestClose={{ toggleCreationModal }}
             >
                 <View style={planOptionsStyle.modalContainer}>
                     <View style={planOptionsStyle.modalContent}>
@@ -134,13 +156,13 @@ export default function PlanOptions() {
                                 }
 
                                 setDocs(await fetchPlans(user))
-                                toggleModal()
+                                toggleCreationModal()
                             }}
                             style={planOptionsStyle.sendPlanButton}
                         >
                             <Text style={planOptionsStyle.sendPlanButtonText}>Enviar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => { toggleModal() }}>
+                        <TouchableOpacity onPress={() => { toggleCreationModal() }}>
                             <Text style={planOptionsStyle.buttonText}>Fechar</Text>
                         </TouchableOpacity>
                     </View>

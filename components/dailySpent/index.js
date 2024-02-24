@@ -8,8 +8,9 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons/faCirclePlus'
 import { AuthContext } from '../authProvider';
 import { formatDate, getNextDate, getPreviousDate } from '../../utils/dateHelper';
-import { deleteDocument } from '../../firebase.config';
 import { addSpendData, fetchDailySpentData } from '../../utils/firebaseHandlers/dailySpendHandlers';
+import { DeleteObjectModal } from '../modals/deleteObject';
+import { deleteDocument } from '../../utils/firebaseRequests/deleteDocs';
 
 export default function DailySpent() {
 
@@ -59,6 +60,12 @@ export default function DailySpent() {
         setIdToDelete(id)
     } 
 
+    const onModalConfirmHandler = async () => {
+        await deleteDocument("dailySpend", idToDelete); 
+        setModalOpen(false);
+        setDocs(await fetchDailySpentData(user, date));
+    }
+
     return (
         <>
             <View style={DailySpentStyle.container}>
@@ -96,37 +103,11 @@ export default function DailySpent() {
                     ))}
                 </View>}
 
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalOpen}
-                    onRequestClose={{ toggleModal }}
-                >
-                    <View style={DailySpentStyle.modalContainer}>
-                        <View style={DailySpentStyle.modal}
-                        >
-                            <Text style={DailySpentStyle.modalText}>Deseja remover registro?</Text>
-                            <View style={DailySpentStyle.modalOptions}>
-                                <TouchableOpacity 
-                                onPress={async ()=> {await deleteDocument("dailySpend", idToDelete); 
-                                setModalOpen(false);
-                                setDocs(await fetchDailySpentData(user, date));
-                                }}
-                                style={DailySpentStyle.modalButton}
-                                >
-                                    <Text style={DailySpentStyle.buttonText}>Sim</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity 
-                                onPress={toggleModal}
-                                style={DailySpentStyle.modalButton}
-                                >
-                                    <Text style={DailySpentStyle.buttonText}>Não</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </View>
-
-                </Modal>
+                <DeleteObjectModal 
+                callbackOnConfirm={onModalConfirmHandler}
+                toggleModal={toggleModal}
+                modalOpen={modalOpen}
+                />
 
                 <View style={DailySpentStyle.inputContainer}>
                     <TextInput

@@ -1,5 +1,5 @@
-import { addPlanningData, getPlanningData } from "../firebase.config";
-import { formatDate } from "../utils/dateHelper";
+import { formatDate } from "../dateHelper";
+import { addPlanningData, getPlanningData } from "../firebaseRequests/planOptionsRequests";
 
 export const addPlan = async (type, category, duration, goal, uid) => {
     const date = formatDate();

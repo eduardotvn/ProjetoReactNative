@@ -3,6 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import { SimpleChart } from '../../../../utils/charts/simpleChart';
 import { AuthContext } from '../../../authProvider';
 import { GetAllDailySpendData } from '../../../../utils/firebaseRequests/getAllDocs';
+import { BasicChartStyles } from './styles';
+import { SelectionDropdown } from '../../../dropdowns/chartDropdowns';
 
 export const BasicChart = ({category, setErrorMessage}) => {
 
@@ -42,19 +44,13 @@ export const BasicChart = ({category, setErrorMessage}) => {
 
 
     return (
-      <View style={styles.container}>
+      <View style={BasicChartStyles.container}>
           {dates.length !== 0 && amounts.length !== 0 && (
+            <>
               <SimpleChart amount={amounts} dates={dates} />
+            </>
           )}
       </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-});

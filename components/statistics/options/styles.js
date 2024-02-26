@@ -13,13 +13,6 @@ export const StatisticsOptionsStyle = StyleSheet.create({
         paddingTop: 50,
         backgroundColor: 'teal'
     },
-    chartsContainer: {
-        gap: 20,
-        paddingTop: 20,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        paddingLeft: 5,
-    },
     button: {
         width: '45%',
         height: '80%',
@@ -34,23 +27,4 @@ export const StatisticsOptionsStyle = StyleSheet.create({
         fontSize: 16,
         color: 'white',
     },
-    errorContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '95%',
-        height: '30%',
-        backgroundColor: 'whitesmoke',
-        borderRadius: 10,
-        alignSelf: 'center',
-        gap: 20,
-    },
-    xIcon: {
-        color: 'lightgray',
-    },
-    errorText: {
-        fontSize: 16,
-        color: 'lightgray',
-        fontWeight: 'bold',
-    }
 })

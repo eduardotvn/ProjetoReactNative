@@ -74,6 +74,21 @@ export default function DailySpent() {
         setDocs(await fetchDailySpentData(user, date));
     }
 
+    const onCreationConfirm = async () => {
+        if (newValue == '' || dropDownValue == '') {
+            setErrorMessage("Os campos são necessários")
+        } else if (newValue < 0) {
+            setErrorMessage("Apenas valores positivos")
+        } else if (isNaN(Number(newValue))) {
+            setErrorMessage("Valor inválido")
+        } else {
+            addSpendData(newValue, dropDownValue, user.uid, date)
+        }
+        setNewValue('')
+        setDropDownValue('')
+        setDocs(await fetchDailySpentData(user, date))
+    }
+
     return (
         <>
             <View style={DailySpentStyle.container}>
@@ -141,20 +156,7 @@ export default function DailySpent() {
                         }}
                     />
 
-                    <TouchableHighlight onPress={async () => {
-                        if (newValue == '' || dropDownValue == '') {
-                            setErrorMessage("Preencha ambos os campos")
-                        } else if (newValue < 0) {
-                            setErrorMessage("O valor não deve ser negativo")
-                        } else if (isNaN(Number(newValue))) {
-                            setErrorMessage("Valor inválido")
-                        }
-                        else {
-                            addSpendData(newValue, dropDownValue, user.uid, date)
-                        }
-                        ;
-                        setDocs(await fetchDailySpentData(user, date))
-                    }}>
+                    <TouchableHighlight onPress={onCreationConfirm}>
                         <FontAwesomeIcon
                             icon={faCirclePlus}
                             size={30} style={{ color: 'teal' }}

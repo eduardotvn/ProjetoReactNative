@@ -5,13 +5,12 @@ import { BasicChart } from "../chartsVisualization/basicChart";
 import { CategoriesDropdown, LabelsDropdown } from "../../dropdowns/chartDropdowns";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faXmark } from '@fortawesome/free-solid-svg-icons/faXmark'
+import { ChartsComponent } from "./chartsComponent";
 
 export const StatisticsOptions = () => {
 
     const [showChartsVisualization, setShowChartsVisualization] = useState(true);
     const [showReportsVisualization, setShowReportsVisualization] = useState(false);
-    const [isFocus, setIsFocus] = useState(false)
-    const [category, setCategory] = useState('Alimento')
     const [errorMessage, setErrorMessage] = useState(null)
 
     const HandleChartsButton = () => {
@@ -42,28 +41,7 @@ export const StatisticsOptions = () => {
         </View>
 
         {showChartsVisualization &&
-            <View style={StatisticsOptionsStyle.chartsContainer}>
-                <CategoriesDropdown
-                    isFocus={isFocus}
-                    setIsFocus={setIsFocus}
-                    dropDownValue={category}
-                    setDropDownValue={setCategory}
-                />
-
-                <BasicChart
-                    category={category}
-                    setErrorMessage={setErrorMessage}
-                />
-        </View>}
-        {errorMessage ? (
-                    <View style={StatisticsOptionsStyle.errorContainer}>
-                        <FontAwesomeIcon 
-                        icon={faXmark} 
-                        style={StatisticsOptionsStyle.xIcon}
-                        size={60}
-                        />
-                        <Text style={StatisticsOptionsStyle.errorText}>{errorMessage}</Text>
-                    </View>
-                ) : null}
+            <ChartsComponent/>
+        }
     </>)
 }

@@ -50,7 +50,7 @@ export default function HomePage() {
                     </View>
 
                     <View style={homeStyle.row}>
-                        <TouchableHighlight style={homeStyle.optionButton}>
+                        <TouchableHighlight style={homeStyle.optionButton} onPress={goToStatistics}>
                             <View style={homeStyle.buttonInnerContainer}>
                                 <FontAwesomeIcon icon={faChartSimple} style={homeStyle.iconStyle} size={30}/>
                                 <Text style={homeStyle.buttonText}>Estatísticas</Text>

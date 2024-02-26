@@ -8,7 +8,7 @@ export default function FinanceManagement() {
     return(
     <>
         <View style={FinanceManagementStyle.DailySpentStyle}>
-
+            <View style={FinanceManagementStyle.header}></View>
             <ScrollView>
                 <DailySpent/>
             </ScrollView>

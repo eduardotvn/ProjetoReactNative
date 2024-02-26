@@ -20,7 +20,7 @@ export const addDailySpendData = (data) => {
   }
   
   export const getDailySpendDataByUserUID = async (userUID, selectedDate) => {
-    try {
+    try { 
       const q = query(
         dailySpendDB,
         where('UserUID', '==', userUID),

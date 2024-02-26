@@ -7,6 +7,9 @@ import PlanOptions from '../../components/planningOptions';
 export default function Planning(){
     return(<>
         <View style={planningStyle.container}>
+            <View style={planningStyle.header}>
+                <Text style={planningStyle.text}> Meus Planos </Text>
+            </View>
             <ScrollView>
                 <PlanOptions/>
             </ScrollView>

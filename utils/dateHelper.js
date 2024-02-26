@@ -1,3 +1,4 @@
+
 export const formatDate = () => {
     const today = new Date()
     const day = today.getDate();

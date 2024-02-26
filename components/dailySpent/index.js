@@ -11,6 +11,7 @@ import { formatDate, getNextDate, getPreviousDate } from '../../utils/dateHelper
 import { addSpendData, fetchDailySpentData } from '../../utils/firebaseHandlers/dailySpendHandlers';
 import { DeleteObjectModal } from '../modals/deleteObject';
 import { deleteDocument } from '../../utils/firebaseRequests/deleteDocs';
+import { SumMonthlySpend } from '../../utils/mathProcedures/plansRelationships';
 
 export default function DailySpent() {
 
@@ -40,6 +41,13 @@ export default function DailySpent() {
             }
         })()
     }, [date]);
+
+    useLayoutEffect(() => {
+        (async () => {
+            const sum = await SumMonthlySpend(user.uid, 2, 2024)
+            console.log(sum);
+        })()
+    }, [user])
 
     const sum = (dailyspent) => {
         if (dailyspent) {

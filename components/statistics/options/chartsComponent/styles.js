@@ -4,10 +4,12 @@ import { StyleSheet } from "react-native";
 export const ChartsComponentStyle = StyleSheet.create({
     chartsContainer: {
         gap: 20,
-        paddingTop: 20,
-        justifyContent: 'center',
+        display: 'flex',
+        paddingTop: 30,
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
         paddingLeft: 5,
+        height: '100%',
     },
     errorContainer: {
         display: 'flex',

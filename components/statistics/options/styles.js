@@ -13,6 +13,16 @@ export const StatisticsOptionsStyle = StyleSheet.create({
         paddingTop: 50,
         backgroundColor: 'teal'
     },
+    container: {
+        display: 'flex',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+    chartContainer: {
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+    },
     button: {
         width: '45%',
         height: '80%',

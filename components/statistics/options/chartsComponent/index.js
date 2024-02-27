@@ -1,5 +1,5 @@
 import { Text, View } from "react-native"
-import { CategoriesDropdown } from "../../../dropdowns/chartDropdowns"
+import { CategoriesDropdown, SelectionDropdown } from "../../../dropdowns/chartDropdowns"
 import { BasicChart } from "../../chartsVisualization/basicChart"
 import { ChartsComponentStyle } from "./styles"
 import { useState } from "react"
@@ -9,23 +9,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
 
 export const ChartsComponent = () => {
 
-    const [isFocus, setIsFocus] = useState(false)
+    const [isCategoriesFocus, setIsCategoriesFocus] = useState(false)
+    const [isDailyTotalFocus, setIsDailyTotalFocus] = useState(false)
     const [category, setCategory] = useState('Alimento')
     const [errorMessage, setErrorMessage] = useState(null)
-
+    const [isDailyTotal, setIsDailyTotal] = useState(false)
+    const categories = ["Alimento", "Saúde", "Pet", "Contas",
+        "Taxas", "Locomoção", "Roupas", "Jogos",
+        "Assinaturas"]
+    const accumulation = ["Total", "Individual"]
     return (
         <View style={ChartsComponentStyle.chartsContainer}>
             <CategoriesDropdown
-                isFocus={isFocus}
-                setIsFocus={setIsFocus}
-                dropDownValue={category}
-                setDropDownValue={setCategory}
+                setDropDownValue={setIsDailyTotal}
+                dropDownValue={isDailyTotal}
+                isFocus={isDailyTotalFocus}
+                setIsFocus={setIsDailyTotalFocus}
+                data={accumulation}
             />
 
-            <BasicChart
-                category={category}
-                setErrorMessage={setErrorMessage}
-            />
+            <View>
+                <BasicChart
+                    category={category}
+                    total={isDailyTotal}
+                    setErrorMessage={setErrorMessage}
+                />
+            </View>
+
             {errorMessage ? (
                 <View style={ChartsComponentStyle.errorContainer}>
                     <FontAwesomeIcon
@@ -36,6 +46,15 @@ export const ChartsComponent = () => {
                     <Text style={ChartsComponentStyle.errorText}>{errorMessage}</Text>
                 </View>
             ) : null}
+            
+            <CategoriesDropdown
+                isFocus={isCategoriesFocus}
+                setIsFocus={setIsCategoriesFocus}
+                dropDownValue={category}
+                setDropDownValue={setCategory}
+                data={categories}
+            />
+
         </View>
     )
 }

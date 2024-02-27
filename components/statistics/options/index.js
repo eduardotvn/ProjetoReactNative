@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from "react-native"
+import { ScrollView, Text, TouchableOpacity, View } from "react-native"
 import { StatisticsOptionsStyle } from "./styles"
 import { useState } from "react";
 import { BasicChart } from "../chartsVisualization/basicChart";
@@ -23,7 +23,8 @@ export const StatisticsOptions = () => {
         setShowReportsVisualization(true);
     }
 
-    return (<>
+    return (
+    <View style={StatisticsOptionsStyle.container}> 
         <View style={StatisticsOptionsStyle.headerContainer}>
 
             <TouchableOpacity
@@ -41,7 +42,9 @@ export const StatisticsOptions = () => {
         </View>
 
         {showChartsVisualization &&
-            <ChartsComponent/>
+            <View style={StatisticsOptionsStyle.chartContainer}>
+                <ChartsComponent/>
+            </View>
         }
-    </>)
+    </View>)
 }

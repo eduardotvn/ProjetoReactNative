@@ -5,10 +5,10 @@ import { AuthContext } from '../../../authProvider';
 import { GetAllDailySpendData } from '../../../../utils/firebaseRequests/getAllDocs';
 import { BasicChartStyles } from './styles';
 import { SelectionDropdown } from '../../../dropdowns/chartDropdowns';
+import { GetDailySpendAxis } from '../../../../utils/firebaseRequests/chartsRequests/getDailySpendAxis';
 
-export const BasicChart = ({category, setErrorMessage}) => {
+export const BasicChart = ({category, setErrorMessage, total}) => {
 
-    const [docs, setDocs] = useState([])
     const [dates, setDates] = useState([])
     const [amounts, setAmounts] = useState([])
 
@@ -16,29 +16,17 @@ export const BasicChart = ({category, setErrorMessage}) => {
 
     useLayoutEffect(() => {
         (async () => {
-            const result = await GetAllDailySpendData(user.uid)
-            if (!result) {
-                setErrorMessage("Erro interno do servidor")
+            const result = await GetDailySpendAxis(category, total, user.uid)
+            if(typeof result === 'string')
+            {
+                setErrorMessage(result)
+            } else 
+            {
+                setDates(result[0])
+                setAmounts(result[1])
             }
-            else {
-                const filteredResult = result.filter(entry => entry.Category === category);
-
-                if(filteredResult.length === 0)
-                {
-                    setErrorMessage("Desculpe, não há dados para mostrar")
-                    setDates([])
-                    setAmounts([])
-                    return 
-                }
-                const datesArray = filteredResult.map(entry => entry.Date);
-                const amountsArray = filteredResult.map(entry => entry.Amount);
-    
-                setDocs(filteredResult);
-                setDates(datesArray);
-                setAmounts(amountsArray);
-                setErrorMessage(null)
             }
-        })()
+        )()
     }, [user, category]); 
 
 

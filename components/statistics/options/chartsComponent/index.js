@@ -5,6 +5,7 @@ import { ChartsComponentStyle } from "./styles"
 import { useState } from "react"
 import { faXmark } from "@fortawesome/free-solid-svg-icons/faXmark"
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome"
+import { BasicBarChart } from "../../chartsVisualization/basicBarChart"
 
 
 export const ChartsComponent = () => {
@@ -13,7 +14,7 @@ export const ChartsComponent = () => {
     const [isDailyTotalFocus, setIsDailyTotalFocus] = useState(false)
     const [category, setCategory] = useState('Alimento')
     const [errorMessage, setErrorMessage] = useState(null)
-    const [isDailyTotal, setIsDailyTotal] = useState(false)
+    const [isDailyTotal, setIsDailyTotal] = useState("Individual")
     const categories = ["Alimento", "Saúde", "Pet", "Contas",
         "Taxas", "Locomoção", "Roupas", "Jogos",
         "Assinaturas"]
@@ -55,6 +56,7 @@ export const ChartsComponent = () => {
                 data={categories}
             />
 
+            <BasicBarChart/>
         </View>
     )
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart } from 'react-native-chart-kit';
 import { View } from 'react-native';
+import { SimpleChartStyle } from './styles';
 
 export const SimpleChart = ({ amount, dates }) => {
   const data = {
@@ -11,8 +12,6 @@ export const SimpleChart = ({ amount, dates }) => {
       },
     ],
   }
-
-  console.log(data)
 
   return (
     <View>
@@ -38,10 +37,7 @@ export const SimpleChart = ({ amount, dates }) => {
           },
         }}
         bezier
-        style={{
-          marginVertical: 8,
-          borderRadius: 16,
-        }}
+        style={SimpleChartStyle.chart}
       />
     </View>
   );

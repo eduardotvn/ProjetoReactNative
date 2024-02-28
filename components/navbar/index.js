@@ -25,17 +25,17 @@ export default NavBar = () => {
                 </View>
             </TouchableHighlight>
 
-            <TouchableHighlight style={footerStyle.button} onPress={logout}>
-                <View style={footerStyle.buttonView}>
-                    <FontAwesomeIcon icon={faHouse} style={footerStyle.buttonIcon}/>
-                    <Text style={footerStyle.buttonText}>Sair</Text>
-                </View>
-            </TouchableHighlight>
-
             <TouchableHighlight style={footerStyle.button}>
                 <View style={footerStyle.buttonView}>
                     <FontAwesomeIcon icon={faGear} style={footerStyle.buttonIcon}/>
                     <Text style={footerStyle.buttonText}>Config</Text>
+                </View>
+            </TouchableHighlight>
+
+            <TouchableHighlight style={footerStyle.button} onPress={logout}>
+                <View style={footerStyle.buttonView}>
+                    <FontAwesomeIcon icon={faHouse} style={footerStyle.buttonIcon}/>
+                    <Text style={footerStyle.buttonText}>Sair</Text>
                 </View>
             </TouchableHighlight>
             

@@ -8,7 +8,7 @@ export const ChartsComponentStyle = StyleSheet.create({
         paddingTop: 30,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        paddingLeft: 5,
+        paddingLeft: 8,
         height: '100%',
     },
     errorContainer: {
@@ -16,7 +16,7 @@ export const ChartsComponentStyle = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: '95%',
-        height: '50%',
+        height: '35%',
         backgroundColor: 'whitesmoke',
         borderRadius: 10,
         alignSelf: 'center',

@@ -24,7 +24,7 @@ export default function PlanOptions() {
     const [errorMessage, setErrorMessage] = useState(null)
     const [docs, setDocs] = useState([])
     const [idToDelete, setIdToDelete] = useState('');
-    const types = ['Reduzir Gastos', 'Poupar Dinheiro']
+    const types = ['Limitar Gastos', 'Poupar Dinheiro']
     const categories = ["Alimento", "Saúde", "Pet", "Contas",
         "Taxas", "Locomoção", "Roupas", "Jogos",
         "Assinaturas"]

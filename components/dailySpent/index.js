@@ -44,7 +44,7 @@ export default function DailySpent() {
 
     useLayoutEffect(() => {
         (async () => {
-            const sum = await SumMonthlySpend(user.uid, 2, 2024)
+            const sum = await SumMonthlySpend(user.uid,"Alimento", 2, 2024)
             console.log(sum);
         })()
     }, [user])

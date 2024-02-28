@@ -41,10 +41,12 @@ export const StatisticsOptions = () => {
 
         </View>
 
+        <ScrollView>
         {showChartsVisualization &&
             <View style={StatisticsOptionsStyle.chartContainer}>
                 <ChartsComponent/>
             </View>
         }
+        </ScrollView>
     </View>)
 }

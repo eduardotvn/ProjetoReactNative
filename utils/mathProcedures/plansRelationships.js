@@ -2,7 +2,7 @@
 import { GetAllDailySpendData } from "../firebaseRequests/getAllDocs";
 
 
-export const SumMonthlySpend = async (userUID, month, year) => {
+export const SumMonthlySpend = async (userUID, category, month, year) => {
     try {
 
         const dailySpends = await GetAllDailySpendData(userUID);
@@ -10,6 +10,7 @@ export const SumMonthlySpend = async (userUID, month, year) => {
         const filteredSpends = dailySpends.filter((spend) => {
             const [day, monthInDocument, yearInDocument] = spend.Date.split('/');
             return (
+                spend.Category === category &&
                 parseInt(monthInDocument, 10) === month &&
                 parseInt(yearInDocument, 10) === year
             );

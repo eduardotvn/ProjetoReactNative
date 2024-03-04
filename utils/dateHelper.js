@@ -1,4 +1,14 @@
 
+export const getCurrentYear = () =>
+{
+    return new Date().getFullYear();
+}
+
+export const getCurrentMonth = () =>
+{
+    return new Date().getMonth() + 1;
+}
+
 export const formatDate = () => {
     const today = new Date()
     const day = today.getDate();

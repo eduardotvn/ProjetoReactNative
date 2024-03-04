@@ -11,7 +11,7 @@ import { formatDate, getNextDate, getPreviousDate } from '../../utils/dateHelper
 import { addSpendData, fetchDailySpentData } from '../../utils/firebaseHandlers/dailySpendHandlers';
 import { DeleteObjectModal } from '../modals/deleteObject';
 import { deleteDocument } from '../../utils/firebaseRequests/deleteDocs';
-import { SumMonthlySpend } from '../../utils/mathProcedures/plansRelationships';
+import { FindRelations, SumMonthlySpend } from '../../utils/mathProcedures/plansRelationships';
 
 export default function DailySpent() {
 
@@ -36,18 +36,10 @@ export default function DailySpent() {
                 setErrorMessage("Erro interno do servidor")
             }
             else {
-                console.log(result)
                 setDocs(result)
             }
         })()
-    }, [date]);
-
-    useLayoutEffect(() => {
-        (async () => {
-            const sum = await SumMonthlySpend(user.uid,"Alimento", 2, 2024)
-            console.log(sum);
-        })()
-    }, [user])
+    }, [user, date]);
 
     const sum = (dailyspent) => {
         if (dailyspent) {
@@ -84,7 +76,6 @@ export default function DailySpent() {
         } else {
             addSpendData(newValue, dropDownValue, user.uid, date)
         }
-        setNewValue('')
         setDropDownValue('')
         setDocs(await fetchDailySpentData(user, date))
     }
@@ -134,7 +125,7 @@ export default function DailySpent() {
 
                 <View style={DailySpentStyle.inputContainer}>
                     <TextInput
-                        placeholder="Valor"
+                        placeholder= "Valor"
                         onChangeText={text => setNewValue(text)}
                         style={DailySpentStyle.textInput}
                         keyboardType="numeric"

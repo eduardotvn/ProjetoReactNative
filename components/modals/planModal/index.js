@@ -54,7 +54,7 @@ export const PlanModal = ({ types,
                     onChangeText={(text) => setDuration(text)}
                     keyboardType='numeric'
                 />
-                {(type == "Reduzir Gastos") && <Dropdown
+                {(type == "Limitar Gastos") && <Dropdown
                     labelField="label"
                     valueField="categoryValue"
                     search

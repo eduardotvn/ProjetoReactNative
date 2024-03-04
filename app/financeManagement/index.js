@@ -29,8 +29,8 @@ export default function FinanceManagement() {
         </View>
             {modalOpen && <GoalModal
             userUID={user.uid}
-            month={() => getCurrentMonth()}
-            year={() => getCurrentYear()}
+            month={getCurrentMonth()}
+            year={getCurrentYear()}
             setToggleModal={toggleModal}
             />}
         <NavBar/>

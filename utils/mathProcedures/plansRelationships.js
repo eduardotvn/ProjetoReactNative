@@ -34,18 +34,21 @@ export const FindRelations = async (userUID, month, year) => {
         const plans = await getPlanningData(userUID)
 
         const result = await Promise.all(
-            plans.map(async (plan) => {
-                const category = plan.Category;
-                const spent = await SumMonthlySpend(userUID, category, month, year);
-                const remainingGoal = plan.Goal - spent;
-    
-                return {
-                    id: plan.id,
-                    category,
-                    spent,
-                    remainingGoal
-            }})
-        )
+            plans
+                .filter(plan => plan.Type === "Limitar Gastos")
+                .map(async (plan) => {
+                    const category = plan.Category;
+                    const spent = await SumMonthlySpend(userUID, category, month, year);
+                    const remainingGoal = plan.Goal - spent;
+        
+                    return {
+                        id: plan.id,
+                        category,
+                        spent,
+                        remainingGoal
+                    };
+                })
+        );
         
         return result; 
     } catch (error)

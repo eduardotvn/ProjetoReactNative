@@ -8,11 +8,14 @@ import { SelectionDropdown } from '../../../dropdowns/chartDropdowns';
 import { GetDailySpendAxis } from '../../../../utils/firebaseRequests/chartsRequests/getDailySpendAxis';
 import { MyBarChart } from '../../../../utils/charts/barChart';
 
-export const BasicBarChart = () => {
+export const BasicBarChart = ({data, categories}) => {
 
   return (
     <View>
-          <MyBarChart/>
+          <MyBarChart
+          data={data}
+          categories={categories}
+          />
     </View>
   );
 };

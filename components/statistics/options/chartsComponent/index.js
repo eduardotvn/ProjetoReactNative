@@ -18,6 +18,7 @@ export const ChartsComponent = () => {
     const categories = ["Alimento", "Saúde", "Pet", "Contas",
         "Taxas", "Locomoção", "Roupas", "Jogos",
         "Assinaturas"]
+    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
     const accumulation = ["Total", "Individual"]
     return (
         <View style={ChartsComponentStyle.chartsContainer}>
@@ -56,7 +57,9 @@ export const ChartsComponent = () => {
                 data={categories}
             />
 
-            <BasicBarChart/>
+            <BasicBarChart
+            categories={months}
+            />
         </View>
     )
 }

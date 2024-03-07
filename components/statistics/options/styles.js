@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 export const StatisticsOptionsStyle = StyleSheet.create({
     headerContainer: {
         width: '100%',
-        height: '15%',
+        height: 120,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-evenly',

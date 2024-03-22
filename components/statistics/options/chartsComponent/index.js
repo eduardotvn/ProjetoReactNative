@@ -1,4 +1,4 @@
-import { Text, View } from "react-native"
+import { ScrollView, Text, View } from "react-native"
 import { CategoriesDropdown, SelectionDropdown } from "../../../dropdowns/chartDropdowns"
 import { BasicChart } from "../../chartsVisualization/basicChart"
 import { ChartsComponentStyle } from "./styles"
@@ -18,10 +18,10 @@ export const ChartsComponent = () => {
     const categories = ["Alimento", "Saúde", "Pet", "Contas",
         "Taxas", "Locomoção", "Roupas", "Jogos",
         "Assinaturas"]
-    const months = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
     const accumulation = ["Total", "Individual"]
     return (
-        <View style={ChartsComponentStyle.chartsContainer}>
+        <ScrollView style={ChartsComponentStyle.scrollViewContainer}>
+            <View style={ChartsComponentStyle.chartsContainer}>
             <CategoriesDropdown
                 setDropDownValue={setIsDailyTotal}
                 dropDownValue={isDailyTotal}
@@ -57,9 +57,10 @@ export const ChartsComponent = () => {
                 data={categories}
             />
 
-            <BasicBarChart
-            categories={months}
-            />
-        </View>
+            <Text style={ChartsComponentStyle.text}>Gastos totais por mês</Text>
+            
+            <BasicBarChart/>
+            </View>
+        </ScrollView>
     )
 }

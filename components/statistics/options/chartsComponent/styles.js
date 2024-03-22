@@ -2,6 +2,9 @@ import { StyleSheet } from "react-native";
 
 
 export const ChartsComponentStyle = StyleSheet.create({
+    scrollViewContainer: {
+        height: 900,
+    },
     chartsContainer: {
         gap: 20,
         display: 'flex',
@@ -24,6 +27,10 @@ export const ChartsComponentStyle = StyleSheet.create({
     },
     xIcon: {
         color: 'lightgray',
+    },
+    text: {
+        fontSize: 20,
+        fontWeight: 'bold',
     },
     errorText: {
         fontSize: 16,

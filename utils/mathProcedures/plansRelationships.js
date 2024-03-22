@@ -58,15 +58,13 @@ export const FindRelations = async (userUID, month, year) => {
     
 } 
 
-export const AllMonthlySpend = async (userUID, category, month, year) => {
+export const AllMonthlySpend = async (userUID, month, year) => {
     try {
-
         const dailySpends = await GetAllDailySpendData(userUID);
 
         const filteredSpends = dailySpends.filter((spend) => {
             const [day, monthInDocument, yearInDocument] = spend.Date.split('/');
             return (
-                spend.Category === category &&
                 parseInt(monthInDocument, 10) === month &&
                 parseInt(yearInDocument, 10) === year
             );

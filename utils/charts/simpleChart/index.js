@@ -22,7 +22,7 @@ export const SimpleChart = ({ amount, dates }) => {
         yAxisLabel={'$'}
         chartConfig={{
           backgroundColor: 'teal',
-          backgroundGradientFrom: 'teal',
+          backgroundGradientFrom: 'black',
           backgroundGradientTo: 'teal',
           decimalPlaces: 2,
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,

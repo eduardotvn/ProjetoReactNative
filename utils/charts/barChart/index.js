@@ -3,12 +3,12 @@ import { View, Text } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import { BarChartStyle } from './styles';
 
-export const MyBarChart = ({data, categories}) => {
+export const MyBarChart = ({amount, categories}) => {
     const sampleData = {
       labels: categories,
       datasets: [
         {
-          data: [20, 45, 28, 80, 99],
+          data: amount,
         },
       ],
     };
@@ -17,15 +17,16 @@ export const MyBarChart = ({data, categories}) => {
       <View>
         <BarChart
           data={sampleData}
-          width={380}
-          height={200}
+          width={600}
+          height={250}
           yAxisLabel={'$'}
+          showValuesOnTopOfBars = {true}
           chartConfig={{
-            backgroundGradientFrom: 'teal',
+            backgroundGradientFrom: 'black',
             backgroundGradientTo: 'teal',
             decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(1, 1, 1, ${opacity})`,
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
               borderRadius: 16,
             },
